@@ -1,9 +1,13 @@
-"use client";
-
 import { inter } from "@/utilities/fonts";
 import "./globals.css";
 import Header from "@/components/Header";
 import Providers from "@/components/Providers";
+
+export const metadata = {
+	title: "Numer Calculator",
+	description: "Numerical Methods",
+};
+
 export default function RootLayout({
 	children,
 }: Readonly<{
