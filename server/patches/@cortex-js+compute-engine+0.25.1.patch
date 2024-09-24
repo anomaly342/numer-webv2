@@ -1,0 +1,13 @@
+diff --git a/node_modules/@cortex-js/compute-engine/package.json b/node_modules/@cortex-js/compute-engine/package.json
+index 95e0aec..5d9eef7 100644
+--- a/node_modules/@cortex-js/compute-engine/package.json
++++ b/node_modules/@cortex-js/compute-engine/package.json
+@@ -39,7 +39,7 @@
+   "files": [
+     "/dist"
+   ],
+-  "type": "module",
++  "type": "commonjs",
+   "exports": {
+     ".": {
+       "types": "./dist/types/compute-engine.d.ts",

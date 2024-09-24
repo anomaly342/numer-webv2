@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: { origin: 'https://localhost:3000', methods: ['GET', 'POST'] },
+    cors: { origin: process.env.CLIENT_URL, methods: ['GET', 'POST'] },
   });
 
   const config = new DocumentBuilder()

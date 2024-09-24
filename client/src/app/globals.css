@@ -34,6 +34,7 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
 	-moz-appearance: textfield;
 }
+
 /* :root {
 	--background: #ffffff;
 	--foreground: #171717;

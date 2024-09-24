@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Result, BisectionRequest } from "@/utilities/types";
+import { BisectionRequest, Result } from "@/utilities/types";
 import { useQuery } from "@tanstack/react-query";
 import { montserrat } from "@/utilities/fonts";
 
@@ -13,7 +13,7 @@ import fetch_server from "@/utilities/fetch";
 import TableSkeleton from "@/components/resultTable/TableSkeleton";
 import "katex/dist/katex.min.css";
 
-export default function BisectionPage() {
+export default function FalsiPage() {
 	const [latex, setLatex] = useState<string>("x^4-7");
 	const [rootRequest, setRootRequest] = useState<BisectionRequest>({
 		expression: latex,
@@ -22,10 +22,10 @@ export default function BisectionPage() {
 		error: 0.000001,
 	});
 	const { error, data, isFetched, isError, isFetching, refetch } = useQuery({
-		queryKey: ["bisection"],
+		queryKey: ["falsi"],
 		queryFn: () =>
 			fetch_server({
-				endpoint: "/root/bisection",
+				endpoint: "/root/false_position",
 				data: {
 					expression: latex,
 					start: Number(rootRequest.start),
@@ -36,7 +36,6 @@ export default function BisectionPage() {
 		enabled: false,
 		retry: false,
 	});
-
 	const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 

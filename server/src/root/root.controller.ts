@@ -1,10 +1,24 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Scope,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CalculationRequest } from './dto/CalculationRequest.dto';
 import { RootService } from './root.service';
-import { Result } from './dto/Result.dto';
+import { BisectionIteration, FixedIteration, Result } from './dto/Result.dto';
+import {
+  BisectionRequest,
+  FixedRequest,
+  SecantRequest,
+} from './dto/Request.dto';
+
 @ApiTags('root')
-@Controller('root')
+@Controller({ path: 'root', scope: Scope.REQUEST })
+@UsePipes(new ValidationPipe({ transform: true }))
 export class RootController {
   constructor(private rootService: RootService) {}
 
@@ -16,8 +30,40 @@ export class RootController {
   @Post('bisection')
   Bisection(
     @Body()
-    calculationRequest: CalculationRequest,
-  ): Result {
-    return this.rootService.Bisection(calculationRequest);
+    bisectionRequest: BisectionRequest,
+  ): Result<BisectionIteration> {
+    return this.rootService.Bisection(bisectionRequest);
+  }
+
+  @Post('false_position')
+  Falsi(
+    @Body()
+    bisectionRequest: BisectionRequest,
+  ): Result<BisectionIteration> {
+    return this.rootService.Falsi(bisectionRequest);
+  }
+
+  @Post('fixed_point')
+  Fixed(
+    @Body()
+    fixedRequest: FixedRequest,
+  ): Result<FixedIteration> {
+    return this.rootService.Fixed(fixedRequest);
+  }
+
+  @Post('newton_raphson')
+  Newton(
+    @Body()
+    fixedRequest: FixedRequest,
+  ): Result<FixedIteration> {
+    return this.rootService.Newton(fixedRequest);
+  }
+
+  @Post('secant')
+  Secant(
+    @Body()
+    secantRequest: SecantRequest,
+  ): Result<FixedIteration> {
+    return this.rootService.Secant(secantRequest);
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Result, BisectionRequest } from "@/utilities/types";
+import { FixedPointRequest, Result } from "@/utilities/types";
 import { useQuery } from "@tanstack/react-query";
 import { montserrat } from "@/utilities/fonts";
 
@@ -13,30 +13,27 @@ import fetch_server from "@/utilities/fetch";
 import TableSkeleton from "@/components/resultTable/TableSkeleton";
 import "katex/dist/katex.min.css";
 
-export default function BisectionPage() {
-	const [latex, setLatex] = useState<string>("x^4-7");
-	const [rootRequest, setRootRequest] = useState<BisectionRequest>({
+export default function FixedPage() {
+	const [latex, setLatex] = useState<string>("x^2 - 17");
+	const [fixedRequest, setFixedRequest] = useState<FixedPointRequest>({
 		expression: latex,
-		start: 0,
-		end: 4,
+		start: 1,
 		error: 0.000001,
 	});
 	const { error, data, isFetched, isError, isFetching, refetch } = useQuery({
-		queryKey: ["bisection"],
+		queryKey: ["newton_raphson"],
 		queryFn: () =>
 			fetch_server({
-				endpoint: "/root/bisection",
+				endpoint: "/root/newton_raphson",
 				data: {
 					expression: latex,
-					start: Number(rootRequest.start),
-					end: Number(rootRequest.end),
-					error: Number(rootRequest.error),
+					start: Number(fixedRequest.start),
+					error: Number(fixedRequest.error),
 				},
 			}),
 		enabled: false,
 		retry: false,
 	});
-
 	const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -46,7 +43,7 @@ export default function BisectionPage() {
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		e.preventDefault();
 
-		setRootRequest((prev) => {
+		setFixedRequest((prev) => {
 			return { ...prev, [e.target.name]: e.target.value };
 		});
 	};
@@ -65,24 +62,17 @@ export default function BisectionPage() {
 				</div>
 				<h5 className="text-[#626262]  w-full font-bold mb-3">Boundary</h5>
 				<div className="flex w-full flex-col justify-center  items-center rounded-md p-9 bg-white shadow-md ">
-					<div className="flex justify-center flex-col md:flex-row items-center gap-5 mb-6">
+					<div className="flex justify-center items-center gap-5 mb-6">
 						<AnimatedFormInput
-							value={rootRequest.start}
+							value={fixedRequest.start}
 							onChange={onChange}
 							name="start"
 						>
-							Start
-						</AnimatedFormInput>
-						<AnimatedFormInput
-							value={rootRequest.end}
-							onChange={onChange}
-							name="end"
-						>
-							End
+							Initial
 						</AnimatedFormInput>
 					</div>
 					<AnimatedFormInput
-						value={rootRequest.error}
+						value={fixedRequest.error}
 						onChange={onChange}
 						name="error"
 					>
@@ -111,7 +101,8 @@ export default function BisectionPage() {
 					(!isError ? (
 						<RootResultTable
 							data={data as Result}
-							method="bisection"
+							method="newton_raphson"
+							expression={latex}
 						></RootResultTable>
 					) : (
 						error.message

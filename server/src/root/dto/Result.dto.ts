@@ -1,12 +1,19 @@
 export class Iteration {
+  error: number;
+}
+
+export class BisectionIteration extends Iteration {
   xl: number;
   xr: number;
   t: number;
   ft: number;
-  error: number;
 }
 
-export class Result {
+export class FixedIteration extends Iteration {
+  x: number;
+}
+
+export class Result<T extends Iteration> {
   value: number;
-  iterations: Iteration[];
+  iterations: T[];
 }
