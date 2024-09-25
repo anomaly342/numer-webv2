@@ -23,6 +23,13 @@
 	font-size: 28px !important;
 }
 
+#cell .katex {
+	font-size: 24px !important;
+}
+
+#symbol .katex {
+	font-size: 24px !important;
+}
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -33,6 +40,12 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
 	-moz-appearance: textfield;
+}
+
+#matrix-size::-webkit-outer-spin-button,
+#matrix-size::-webkit-inner-spin-button {
+	-webkit-appearance: auto;
+	margin: 0;
 }
 
 /* :root {

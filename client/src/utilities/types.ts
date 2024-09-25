@@ -17,7 +17,17 @@ export interface SecantRequest extends RootRequest {
 	start_1: number;
 }
 
-export type Data = BisectionRequest | FixedPointRequest | SecantRequest;
+export interface LinearRequest {
+	size: number;
+	a: number[][];
+	b: number[];
+}
+
+export type Data =
+	| BisectionRequest
+	| FixedPointRequest
+	| SecantRequest
+	| LinearRequest;
 export interface Iteration {
 	error: number;
 }

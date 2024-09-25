@@ -26,7 +26,7 @@ export default function AnimatedFormInput({
 				required
 			/>
 			<label
-				className="whitespace-nowrap z-40 bg-[#E67635] font-bold px-2 absolute left-3 -top-[10px] text-sm text-white transition-all duration-200 peer-focus:-top-[10px] peer-focus:left-3 peer-focus:text-sm peer-focus:bg-[#E67635] peer-focus:font-bold peer-focus:px-2 peer-focus:text-white peer-focus:translate-x-0 peer-placeholder-shown:top-[11px] peer-placeholder-shown:text-base peer-placeholder-shown:left-1/2 peer-placeholder-shown:-translate-x-1/2 peer-placeholder-shown:bg-transparent peer-placeholder-shown:py-0 peer-placeholder-shown:text-[#7E7E7E] peer-placeholder-shown:font-normal"
+				className="select-none pointer-events-none whitespace-nowrap z-40 bg-[#E67635] font-bold px-2 absolute left-3 -top-[10px] text-sm text-white transition-all duration-200 peer-focus:-top-[10px] peer-focus:left-3 peer-focus:text-sm peer-focus:bg-[#E67635] peer-focus:font-bold peer-focus:px-2 peer-focus:text-white peer-focus:translate-x-0 peer-placeholder-shown:top-[11px] peer-placeholder-shown:text-base peer-placeholder-shown:left-1/2 peer-placeholder-shown:-translate-x-1/2 peer-placeholder-shown:bg-transparent peer-placeholder-shown:py-0 peer-placeholder-shown:text-[#7E7E7E] peer-placeholder-shown:font-normal"
 				htmlFor={name}
 			>
 				{children}
