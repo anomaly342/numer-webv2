@@ -19,8 +19,8 @@ export interface SecantRequest extends RootRequest {
 
 export interface LinearRequest {
 	size: number;
-	a: number[][];
-	b: number[];
+	a: number[][] | string[][];
+	b: number[] | string[];
 }
 
 export type Data =
@@ -43,9 +43,19 @@ export interface FixedPointIteration extends Iteration {
 	x: number;
 }
 
-export interface Result {
+export interface RootResult {
 	value: number;
 	iterations: BisectionIteration[] | FixedPointIteration[];
+}
+
+export interface LinearResult {
+	value: number[];
+}
+
+export interface CramerResult extends LinearResult {
+	matrixA_i: number[][][];
+	detA_i: number[];
+	detA: number;
 }
 
 export type ErrorObject = {

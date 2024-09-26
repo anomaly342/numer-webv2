@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { FixedPointRequest, Result } from "@/utilities/types";
+import { FixedPointRequest, RootResult } from "@/utilities/types";
 import { useQuery } from "@tanstack/react-query";
 import { montserrat } from "@/utilities/fonts";
 
@@ -100,7 +100,7 @@ export default function FixedPage() {
 					!isFetching &&
 					(!isError ? (
 						<RootResultTable
-							data={data as Result}
+							data={data as RootResult}
 							method="fixed_point"
 							expression={latex}
 						></RootResultTable>

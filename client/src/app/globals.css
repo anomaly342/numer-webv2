@@ -45,6 +45,7 @@ input[type="number"] {
 #matrix-size::-webkit-outer-spin-button,
 #matrix-size::-webkit-inner-spin-button {
 	-webkit-appearance: auto;
+	padding: 0;
 	margin: 0;
 }
 

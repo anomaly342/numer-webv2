@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Result, BisectionRequest } from "@/utilities/types";
+import { RootResult, BisectionRequest } from "@/utilities/types";
 import { useQuery } from "@tanstack/react-query";
 import { montserrat } from "@/utilities/fonts";
 
@@ -110,7 +110,7 @@ export default function BisectionPage() {
 					!isFetching &&
 					(!isError ? (
 						<RootResultTable
-							data={data as Result}
+							data={data as RootResult}
 							method="bisection"
 						></RootResultTable>
 					) : (

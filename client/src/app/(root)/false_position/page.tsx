@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { BisectionRequest, Result } from "@/utilities/types";
+import { BisectionRequest, RootResult } from "@/utilities/types";
 import { useQuery } from "@tanstack/react-query";
 import { montserrat } from "@/utilities/fonts";
 
@@ -109,7 +109,7 @@ export default function FalsiPage() {
 					!isFetching &&
 					(!isError ? (
 						<RootResultTable
-							data={data as Result}
+							data={data as RootResult}
 							method="bisection"
 						></RootResultTable>
 					) : (

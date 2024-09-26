@@ -1,5 +1,5 @@
 import getGraphData from "@/utilities/getGraphData";
-import { Iteration, Result } from "@/utilities/types";
+import { Iteration, RootResult } from "@/utilities/types";
 import dynamic from "next/dynamic";
 import Latex from "react-latex-next";
 
@@ -12,7 +12,7 @@ export default function RootResultTable({
 	method,
 	expression,
 }: {
-	data: Result;
+	data: RootResult;
 	method: string;
 	expression?: string;
 }) {
@@ -49,7 +49,7 @@ export default function RootResultTable({
 							return (
 								<tr
 									key={index}
-									className="border-b-[1px] border-solid border-[#CFCFCF] even:bg-[#F7F7F7]"
+									className="hover:bg-[#FFEFE6] border-b-[1px] border-solid border-[#CFCFCF] even:bg-[#F7F7F7]"
 								>
 									<td className="pl-2 py-3">{index}</td>
 									{column_headers.map((header) => (

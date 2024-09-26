@@ -1,11 +1,15 @@
 import { ComputeEngine } from "@cortex-js/compute-engine";
-import { BisectionIteration, FixedPointIteration, Result } from "./types";
+import { BisectionIteration, FixedPointIteration, RootResult } from "./types";
 const range = (start: number, stop: number, step = 1) =>
 	Array(Math.ceil((stop - start) / step))
 		.fill(start)
 		.map((x, y) => x + y * step);
 
-const getGraphData = (data: Result, method: string, expression?: string) => {
+const getGraphData = (
+	data: RootResult,
+	method: string,
+	expression?: string
+) => {
 	const ce = new ComputeEngine();
 	let iterations;
 	if (method === "bisection") {
