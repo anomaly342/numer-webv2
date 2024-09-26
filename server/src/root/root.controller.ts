@@ -7,14 +7,14 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { RootService } from './root.service';
-import { BisectionIteration, FixedIteration, Result } from './dto/Result.dto';
 import {
   BisectionRequest,
   FixedRequest,
   SecantRequest,
 } from './dto/Request.dto';
+import { BisectionIteration, FixedIteration, Result } from './dto/Result.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { RootService } from './root.service';
 
 @ApiTags('root')
 @Controller({ path: 'root', scope: Scope.REQUEST })
