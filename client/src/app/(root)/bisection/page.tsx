@@ -3,7 +3,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { RootResult, BisectionRequest } from "@/utilities/types";
 import { useQuery } from "@tanstack/react-query";
-import { montserrat } from "@/utilities/fonts";
 
 import MathField from "@/components/input/EditableMathField";
 import AnimatedFormInput from "@/components/input/AnimatedFormInput";
@@ -11,6 +10,7 @@ import RootResultTable from "@/components/resultTable/RootResultTable";
 import Latex from "react-latex-next";
 import fetch_server from "@/utilities/fetch";
 import TableSkeleton from "@/components/resultTable/TableSkeleton";
+import CalculateButton from "@/components/input/CalculateButton";
 import "katex/dist/katex.min.css";
 
 export default function BisectionPage() {
@@ -89,17 +89,7 @@ export default function BisectionPage() {
 						Error Tolerance
 					</AnimatedFormInput>
 					<hr className="w-4/5 md:w-3/5 border-0.5 mt-7 border-solid border-black"></hr>
-					<button
-						className={`${
-							montserrat.className
-						} mt-7 text-3xl text-[#F7F7F7] rounded-md font-bold bg-[#7BB026] px-4 py-3 ${
-							isFetching ? "disabled:bg-[#577a1d]" : ""
-						}`}
-						type="submit"
-						disabled={isFetching}
-					>
-						Calculate
-					</button>
+					<CalculateButton isFetching={isFetching}></CalculateButton>
 				</div>
 			</form>
 
