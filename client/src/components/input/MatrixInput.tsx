@@ -61,7 +61,7 @@ export default function MatrixInput({
 								e.map((_e, j) => (
 									<div key={`${i}/${j}`} className="relative">
 										<input
-											className="size-16 rounded-sm bg-[#E1E1E1] p-2 text-center focus:outline-[#E67635] peer outline-transparent transition-all duration-300"
+											className="size-12 sm:size-16 rounded-sm bg-[#E1E1E1] p-2 text-center focus:outline-[#E67635] peer outline-transparent transition-all duration-300"
 											type="number"
 											name="cell"
 											value={LinearRequest.a[i][j]}
@@ -93,7 +93,7 @@ export default function MatrixInput({
 								.map((e, i) => (
 									<div key={i} className="relative">
 										<input
-											className="size-16 rounded-sm bg-[#F7F7F7] p-2 text-center focus:outline-[#E67635] peer cursor-not-allowed"
+											className="size-12 sm:size-16 rounded-sm bg-[#F7F7F7] p-2 text-center focus:outline-[#E67635] peer cursor-not-allowed"
 											type="number"
 											name="varialbe"
 											placeholder=""
@@ -130,7 +130,7 @@ export default function MatrixInput({
 								.map((e, i) => (
 									<div key={i} className="relative">
 										<input
-											className="size-16 rounded-sm bg-[#E1E1E1] p-2 text-center focus:outline-[#E67635] peer outline-transparent transition-all duration-300"
+											className="size-12 sm:size-16 rounded-sm bg-[#E1E1E1] p-2 text-center focus:outline-[#E67635] peer outline-transparent transition-all duration-300"
 											type="number"
 											name="varialbe"
 											value={LinearRequest.b[i]}

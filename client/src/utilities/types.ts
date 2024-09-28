@@ -58,6 +58,25 @@ export interface CramerResult extends LinearResult {
 	detA: number;
 }
 
+export type Operation = "divide" | "multiple";
+
+export interface Change {
+	rowAffected: number;
+	rowOperator: number;
+	operation: Operation;
+	constant: number;
+}
+
+export interface GaussIteration {
+	a: number[][];
+	b: number[];
+	change: Change | undefined;
+}
+
+export interface GaussResult extends LinearResult {
+	iterations: GaussIteration[];
+}
+
 export type ErrorObject = {
 	statusCode: string;
 	message: string;

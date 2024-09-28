@@ -30,6 +30,10 @@
 #symbol .katex {
 	font-size: 24px !important;
 }
+
+#Gaussian .katex {
+	font-size: 24px !important;
+}
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

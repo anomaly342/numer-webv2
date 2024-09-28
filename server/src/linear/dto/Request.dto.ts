@@ -11,9 +11,9 @@ export class LinearRequest {
   @ApiProperty({
     type: [[Number]], // Define it as a 2D array of numbers
     example: [
-      [4, 4, 7],
-      [3, 6, 5],
-      [1, 3, 2],
+      [7, 1, 5],
+      [4, 3, 5],
+      [6, 1, 2],
     ],
   })
   @Validate(Is2dArrayNumeric)
@@ -24,5 +24,5 @@ export class LinearRequest {
   ];
 
   @IsNumber({}, { each: true })
-  readonly b: number[] = [6, 3, 1];
+  readonly b: number[] = [27, 21, 9];
 }

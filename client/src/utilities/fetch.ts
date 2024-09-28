@@ -1,4 +1,10 @@
-import { CramerResult, Data, ErrorObject, RootResult } from "./types";
+import {
+	CramerResult,
+	Data,
+	ErrorObject,
+	GaussResult,
+	RootResult,
+} from "./types";
 
 const fetch_server = async ({
 	endpoint,
@@ -6,7 +12,7 @@ const fetch_server = async ({
 }: {
 	endpoint: string;
 	data: Data;
-}): Promise<RootResult | CramerResult | Error> => {
+}): Promise<RootResult | CramerResult | GaussResult | Error> => {
 	const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
 	const response = await fetch(`${url}${endpoint}`, {
 		mode: "cors",
