@@ -25,7 +25,7 @@ export default function GaussPage() {
 		b: [6, 3, 14, 8],
 	});
 	const { error, data, isFetched, isError, isFetching, refetch } = useQuery({
-		queryKey: ["cramer"],
+		queryKey: ["gauss"],
 		queryFn: () =>
 			fetch_server({
 				endpoint: "/linear/gauss_elimination",
