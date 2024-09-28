@@ -21,7 +21,7 @@ export default function FixedPage() {
 		error: 0.000001,
 	});
 	const { error, data, isFetched, isError, isFetching, refetch } = useQuery({
-		queryKey: ["falsi"],
+		queryKey: ["fixed_point"],
 		queryFn: () =>
 			fetch_server({
 				endpoint: "/root/fixed_point",
