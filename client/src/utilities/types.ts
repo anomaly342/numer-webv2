@@ -23,11 +23,13 @@ export interface LinearRequest {
 	b: number[] | string[];
 }
 
-export type Data =
+export type RequestData =
+	| RootRequest
 	| BisectionRequest
 	| FixedPointRequest
 	| SecantRequest
 	| LinearRequest;
+
 export interface Iteration {
 	error: number;
 }
@@ -76,6 +78,15 @@ export interface InversionResult extends LinearResult {
 	iterations: InversionIteration[];
 }
 
+export interface CholeskyResult extends LinearResult {
+	b: number[];
+	lower: number[][];
+	lower_t: number[][];
+	invertedLower: number[][];
+	invertedLower_t: number[][];
+	y: number[];
+}
+
 export type Operation = "divide" | "multiple";
 
 export interface Change {
@@ -105,3 +116,11 @@ export type ErrorObject = {
 };
 
 export type DataIteration = BisectionIteration[] | FixedPointIteration[];
+export type ResultData =
+	| RootResult
+	| CramerResult
+	| GaussResult
+	| InversionResult
+	| LUResult
+	| CholeskyResult
+	| Error;

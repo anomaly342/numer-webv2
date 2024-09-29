@@ -26,6 +26,15 @@ export class LUResult extends LinearResult {
   y: number[];
 }
 
+export class CholeskyResult extends LinearResult {
+  b: number[];
+  lower: number[][];
+  lower_t: number[][];
+  invertedLower: number[][];
+  invertedLower_t: number[][];
+  y: number[];
+}
+
 export type Operation = 'divide' | 'multiple';
 
 export class Change {

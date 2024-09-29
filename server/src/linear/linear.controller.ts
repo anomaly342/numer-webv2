@@ -40,4 +40,9 @@ export class LinearController {
   LU_decomposition(@Body() linearRequest: LinearRequest) {
     return this.linearService.LU_decomposition(linearRequest);
   }
+
+  @Post('cholesky_decomposition')
+  Cholesky_decomposition(@Body() linearRequest: LinearRequest) {
+    return this.linearService.Cholesky_decomposition(linearRequest);
+  }
 }

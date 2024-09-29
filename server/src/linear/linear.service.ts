@@ -1,19 +1,26 @@
-import {
-  matrix as toMatrix,
-  det,
-  multiply,
-  inv,
-  LUDecomposition,
-} from 'mathjs';
+import { matrix as toMatrix, det, multiply, inv, transpose } from 'mathjs';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { LinearRequest } from './dto/Request.dto';
 import {
+  CholeskyResult,
   CramerResult,
   GaussResult,
   InversionResult,
   LUResult,
 } from './dto/Result.dto';
 import { cloneDeep } from 'lodash';
+
+const getNestedArray = (size: number) =>
+  Array.from({ length: size }, () => Array(size).fill(0));
+
+const isSymmetric = (mat: number[][], size: number) => {
+  for (let i = 0; i < size; i++)
+    for (let j = 0; j < size; j++)
+      if (mat[i][j] != mat[j][i]) {
+        return false;
+      }
+  return true;
+};
 
 @Injectable()
 export class LinearService {
@@ -216,9 +223,7 @@ export class LinearService {
     } as InversionResult;
 
     let _a = cloneDeep(a);
-    let _invertedMatrix: number[][] = Array.from({ length: size }, () =>
-      Array(size).fill(0),
-    );
+    let _invertedMatrix: number[][] = getNestedArray(size);
     let _b = [...b];
 
     let pivot_value: number;
@@ -310,7 +315,7 @@ export class LinearService {
     return result;
   }
 
-  LU_decomposition(linearRequest: LinearRequest) {
+  LU_decomposition(linearRequest: LinearRequest): LUResult {
     const { size, a, b } = linearRequest;
 
     let y: number[];
@@ -319,15 +324,13 @@ export class LinearService {
       value: undefined,
       upper: undefined,
       lower: undefined,
+      invertedUpper: undefined,
+      invertedLower: undefined,
       y: undefined,
     } as LUResult;
 
-    const upper: number[][] = Array.from({ length: size }, () =>
-      Array(size).fill(0),
-    );
-    const lower: number[][] = Array.from({ length: size }, () =>
-      Array(size).fill(0),
-    );
+    const upper: number[][] = getNestedArray(size);
+    const lower: number[][] = getNestedArray(size);
 
     for (let i = 0; i < size; i++) {
       // Upper Triangular
@@ -362,6 +365,59 @@ export class LinearService {
     result.invertedUpper = invertedUpper;
     result.value = multiply(invertedUpper, y);
 
+    return result;
+  }
+
+  Cholesky_decomposition(linearRequest: LinearRequest): CholeskyResult {
+    const { size, a, b } = linearRequest;
+
+    if (!isSymmetric(a, size)) {
+      throw new HttpException(
+        'A must be a symmetric matrix.',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    let lower: number[][] = getNestedArray(size);
+    let y: number[];
+
+    const result = {
+      b: [...b],
+      lower: undefined,
+      lower_t: undefined,
+      invertedLower: undefined,
+      invertedLower_t: undefined,
+      y: undefined,
+    } as CholeskyResult;
+
+    for (let i = 0; i < size; i++) {
+      for (let j = 0; j <= i; j++) {
+        let sum = 0;
+        if (j == i) {
+          for (let k = 0; k < j; k++) {
+            sum += Math.pow(lower[j][k], 2);
+          }
+          lower[j][j] = Math.sqrt(a[j][j] - sum);
+        } else {
+          for (let k = 0; k < j; k++) {
+            sum += lower[i][k] * lower[j][k];
+          }
+          lower[i][j] = (a[i][j] - sum) / lower[j][j];
+        }
+      }
+    }
+
+    const lower_t = transpose(lower);
+    result.lower = lower;
+    result.lower_t = lower_t;
+    const invertedLower = inv(lower);
+    const invertedLower_t = inv(lower_t);
+
+    y = multiply(invertedLower, b);
+    result.y = y;
+    result.invertedLower = invertedLower;
+    result.invertedLower_t = invertedLower_t;
+    result.value = multiply(invertedLower_t, y);
     return result;
   }
 }

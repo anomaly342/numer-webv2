@@ -1,16 +1,16 @@
 import { getLatexMatrix, toFixedIfNecessary } from "@/utilities/LatexFunctions";
-import { LUResult } from "@/utilities/types";
+import { CholeskyResult } from "@/utilities/types";
 import { spacing } from "@/data/Constants";
 import Latex from "react-latex-next";
 
-const generateLULatex = (data: LUResult) => {
+const generateCholeskyLatex = (data: CholeskyResult) => {
 	let latex = "$\\begin{aligned}";
-	const { upper, lower, y, b, invertedUpper, invertedLower, value } = data;
+	const { lower, lower_t, y, b, invertedLower, invertedLower_t, value } = data;
 
 	latex += `L &= ${getLatexMatrix(lower, "bmatrix")}\\\\[${spacing}px]`;
-	latex += `U &= ${getLatexMatrix(upper, "bmatrix")}\\\\[${spacing}px]`;
-	latex += `LUX &= B\\\\[${spacing - 25}px]`;
-	latex += `\\text{Let}\\qquad UX &= Y\\\\[${spacing - 25}px]`;
+	latex += `L^T &= ${getLatexMatrix(lower_t, "bmatrix")}\\\\[${spacing}px]`;
+	latex += `LL^TX &= B\\\\[${spacing - 25}px]`;
+	latex += `\\text{Let}\\qquad L^TX &= Y\\\\[${spacing - 25}px]`;
 	latex += `\\text{First solve}\\qquad LY &= B\\quad\\text{for}\\: Y\\\\[${
 		spacing - 25
 	}px]`;
@@ -29,13 +29,13 @@ const generateLULatex = (data: LUResult) => {
 	});
 	latex += `\\end{bmatrix}\\\\[${spacing}px]`;
 
-	latex += `\\text{Then solve}\\qquad UX &= Y\\quad\\text{for}\\: X\\\\[${
+	latex += `\\text{Then solve}\\qquad L^TX &= Y\\quad\\text{for}\\: X\\\\[${
 		spacing - 25
 	}px]`;
 
-	latex += `X &= U^{-1}Y\\\\[${spacing - 25}px]`;
+	latex += `X &= {(L^{T})}^{-1}Y\\\\[${spacing - 25}px]`;
 
-	latex += `X &= ${getLatexMatrix(invertedUpper, "bmatrix")}`;
+	latex += `X &= ${getLatexMatrix(invertedLower_t, "bmatrix")}`;
 
 	latex += `\\begin{bmatrix}`;
 	y.map((e) => {
@@ -54,8 +54,8 @@ const generateLULatex = (data: LUResult) => {
 	return latex;
 };
 
-export default function LUSolution({ data }: { data: LUResult }) {
-	const latex_string = generateLULatex(data);
+export default function CholeskySolution({ data }: { data: CholeskyResult }) {
+	const latex_string = generateCholeskyLatex(data);
 	return (
 		<div className="bg-white w-full shadow-md rounded-md flex flex-col overflow-x-auto">
 			<div
