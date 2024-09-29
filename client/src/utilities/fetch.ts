@@ -3,6 +3,8 @@ import {
 	Data,
 	ErrorObject,
 	GaussResult,
+	InversionResult,
+	LUResult,
 	RootResult,
 } from "./types";
 
@@ -12,7 +14,9 @@ const fetch_server = async ({
 }: {
 	endpoint: string;
 	data: Data;
-}): Promise<RootResult | CramerResult | GaussResult | Error> => {
+}): Promise<
+	RootResult | CramerResult | GaussResult | InversionResult | LUResult | Error
+> => {
 	const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
 	const response = await fetch(`${url}${endpoint}`, {
 		mode: "cors",

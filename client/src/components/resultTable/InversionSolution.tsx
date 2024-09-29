@@ -1,15 +1,15 @@
-import { GaussResult } from "@/utilities/types";
-import { toFixedIfNecessary } from "@/utilities/LatexFunctions";
+import { getLatexMatrix, toFixedIfNecessary } from "@/utilities/LatexFunctions";
+import { InversionResult } from "@/utilities/types";
 import { spacing } from "@/data/Constants";
 import Latex from "react-latex-next";
 
-const generateGaussLatex = (data: GaussResult, isJordan: boolean) => {
+const generateInversionLatex = (data: InversionResult) => {
 	let latex = "$\\begin{aligned}";
 	const size = data.iterations[0].a.length;
-	const { iterations } = data;
+	const { iterations, b, value } = data;
 
 	iterations?.map((e) => {
-		const { a, b, change } = e;
+		const { a, invertedMatrix, change } = e;
 		let isRowFound = false;
 
 		if (change === undefined) {
@@ -48,45 +48,63 @@ const generateGaussLatex = (data: GaussResult, isJordan: boolean) => {
 			latex += "\\end{array} &";
 		}
 
-		latex += `\\left[\\begin{array}{${"c".repeat(size)}|c}`;
+		latex += `\\left[\\begin{array}{${"c".repeat(size)}|${"c".repeat(size)}}`;
 
 		for (let i = 0; i < size; i++) {
 			for (let j = 0; j < size; j++) {
 				latex += `${toFixedIfNecessary(a[i][j])} & `;
 			}
 
+			for (let j = 0; j < size; j++) {
+				if (j !== size - 1) {
+					latex += `${toFixedIfNecessary(invertedMatrix[i][j])} & `;
+				} else {
+					latex += `${toFixedIfNecessary(invertedMatrix[i][j])}`;
+				}
+			}
+
 			if (i !== size - 1) {
-				latex += `${toFixedIfNecessary(b[i])} \\\\`;
-			} else {
-				latex += `${toFixedIfNecessary(b[i])}`;
+				latex += `\\\\`;
 			}
 		}
 		latex += "\\end{array}\\right]";
 		latex += `\\\\[${spacing}px]`;
 	});
-	if (isJordan === false) {
-		const last_iteration = iterations[iterations.length - 1];
-		for (let i = 0; i < size; i++) {
-			latex += `x_${i + 1}`;
-			for (let j = i + 1; j < size; j++) {
-				latex += `+ ${toFixedIfNecessary(last_iteration.a[i][j])}x_${j + 1}`;
-			}
-			latex += `&= ${toFixedIfNecessary(last_iteration.b[i])} \\\\`;
-		}
+
+	const last_invertedMatrix =
+		data.iterations[iterations.length - 1].invertedMatrix;
+	latex += `A^{-1} &= ${getLatexMatrix(
+		last_invertedMatrix,
+		"bmatrix"
+	)} \\\\[${spacing}px]
+    
+    `;
+	latex += `A^{-1}AX &= A^{-1}B \\\\[${spacing - 25}px]
+                    IX &= A^{-1}B \\\\[${spacing - 25}px]
+                    X  &= A^{-1}B \\\\[${spacing - 25}px]`;
+
+	latex += `X &= ${getLatexMatrix(last_invertedMatrix, "bmatrix")}`;
+
+	latex += `\\begin{bmatrix}`;
+	for (let i = 0; i < size; i++) {
+		latex += `${toFixedIfNecessary(b[i])} \\\\`;
 	}
+	latex += `\\end{bmatrix} \\\\[${spacing}px]`;
+
+	latex += `X &= `;
+
+	latex += `\\begin{bmatrix}`;
+	for (let i = 0; i < size; i++) {
+		latex += `${toFixedIfNecessary(value[i])} \\\\`;
+	}
+	latex += `\\end{bmatrix}`;
 
 	latex += "\\end{aligned}$";
 	return latex;
 };
 
-export default function GaussSolution({
-	data,
-	isJordan,
-}: {
-	data: GaussResult;
-	isJordan: boolean;
-}) {
-	const latex_string = generateGaussLatex(data, isJordan);
+export default function InversionSolution({ data }: { data: InversionResult }) {
+	const latex_string = generateInversionLatex(data);
 	return (
 		<div className="bg-white w-full shadow-md rounded-md flex flex-col overflow-x-auto">
 			<div

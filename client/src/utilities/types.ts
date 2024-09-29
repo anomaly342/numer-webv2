@@ -58,6 +58,24 @@ export interface CramerResult extends LinearResult {
 	detA: number;
 }
 
+export interface LUResult extends LinearResult {
+	b: number[];
+	upper: number[][];
+	lower: number[][];
+	invertedUpper: number[][];
+	invertedLower: number[][];
+	y: number[];
+}
+
+export interface GaussResult extends LinearResult {
+	iterations: GaussIteration[];
+}
+
+export interface InversionResult extends LinearResult {
+	b: number[];
+	iterations: InversionIteration[];
+}
+
 export type Operation = "divide" | "multiple";
 
 export interface Change {
@@ -67,14 +85,18 @@ export interface Change {
 	constant: number;
 }
 
-export interface GaussIteration {
-	a: number[][];
-	b: number[];
+export interface LinearIteration {
 	change: Change | undefined;
 }
 
-export interface GaussResult extends LinearResult {
-	iterations: GaussIteration[];
+export interface GaussIteration extends LinearIteration {
+	a: number[][];
+	b: number[];
+}
+
+export interface InversionIteration extends LinearIteration {
+	a: number[][];
+	invertedMatrix: number[][];
 }
 
 export type ErrorObject = {

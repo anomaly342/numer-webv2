@@ -8,6 +8,24 @@ export class CramerResult extends LinearResult {
   detA: number;
 }
 
+export class GaussResult extends LinearResult {
+  iterations: GaussIteration[];
+}
+
+export class InversionResult extends LinearResult {
+  b: number[];
+  iterations: InversionIteration[];
+}
+
+export class LUResult extends LinearResult {
+  b: number[];
+  upper: number[][];
+  lower: number[][];
+  invertedUpper: number[][];
+  invertedLower: number[][];
+  y: number[];
+}
+
 export type Operation = 'divide' | 'multiple';
 
 export class Change {
@@ -17,12 +35,16 @@ export class Change {
   constant: number;
 }
 
-export class GaussIteration {
-  a: number[][];
-  b: number[];
+export class LinearIteration {
   change: Change | undefined;
 }
 
-export class GaussResult extends LinearResult {
-  iterations: GaussIteration[];
+export class GaussIteration extends LinearIteration {
+  a: number[][];
+  b: number[];
+}
+
+export class InversionIteration extends LinearIteration {
+  a: number[][];
+  invertedMatrix: number[][];
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { LinearRequest, GaussResult } from "@/utilities/types";
+import { LinearRequest, InversionResult } from "@/utilities/types";
 import { useQuery } from "@tanstack/react-query";
 import { getNestedArray } from "@/utilities/getNestedArray";
 import { cloneDeep } from "lodash";
@@ -10,10 +10,10 @@ import fetch_server from "@/utilities/fetch";
 import TableSkeleton from "@/components/resultTable/TableSkeleton";
 import MatrixInput from "@/components/input/MatrixInput";
 import CalculateButton from "@/components/input/CalculateButton";
-import GaussSolution from "@/components/resultTable/GaussSolution";
+import InversionSolution from "@/components/resultTable/InversionSolution";
 import "katex/dist/katex.min.css";
 
-export default function GaussPage() {
+export default function GaussJordanPage() {
 	const [LinearRequest, setLinearRequest] = useState<LinearRequest>({
 		size: 4,
 		a: [
@@ -25,10 +25,10 @@ export default function GaussPage() {
 		b: [6, 3, 14, 8],
 	});
 	const { error, data, isFetched, isError, isFetching, refetch } = useQuery({
-		queryKey: ["gauss"],
+		queryKey: ["matrix_inversion"],
 		queryFn: () =>
 			fetch_server({
-				endpoint: "/linear/gauss_elimination",
+				endpoint: "/linear/matrix_inversion",
 				data: {
 					size: LinearRequest.size,
 					a: LinearRequest.a,
@@ -104,7 +104,7 @@ export default function GaussPage() {
 			>
 				<Latex>
 					{
-						"$A = \\begin{bmatrix} a_{11} & a_{12} & a_{13} \\\\ a_{21} & a_{22} & a_{23} \\\\ a_{31} & a_{32} & a_{33} \\end{bmatrix} \\xrightarrow{Gaussian\\:elimination} A = \\begin{bmatrix} 1 & b_{12} & b_{13} \\\\ 0 & 1 & b_{23} \\\\ 0 & 0 & 1 \\end{bmatrix} $"
+						"$\\begin{aligned}AX &= B\\\\A^{-1}AX &= A^{-1}B\\\\ IX &= A^{-1}B\\\\ X &= A^{-1}B\\end{aligned}$"
 					}
 				</Latex>
 			</div>
@@ -130,10 +130,9 @@ export default function GaussPage() {
 				{isFetched &&
 					!isFetching &&
 					(!isError ? (
-						<GaussSolution
-							data={data as GaussResult}
-							isJordan={false}
-						></GaussSolution>
+						<InversionSolution
+							data={data as InversionResult}
+						></InversionSolution>
 					) : (
 						error.message
 					))}

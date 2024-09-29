@@ -13,7 +13,7 @@ import CalculateButton from "@/components/input/CalculateButton";
 import GaussSolution from "@/components/resultTable/GaussSolution";
 import "katex/dist/katex.min.css";
 
-export default function GaussPage() {
+export default function GaussJordanPage() {
 	const [LinearRequest, setLinearRequest] = useState<LinearRequest>({
 		size: 4,
 		a: [
@@ -25,10 +25,10 @@ export default function GaussPage() {
 		b: [6, 3, 14, 8],
 	});
 	const { error, data, isFetched, isError, isFetching, refetch } = useQuery({
-		queryKey: ["gauss"],
+		queryKey: ["gauss_jordan"],
 		queryFn: () =>
 			fetch_server({
-				endpoint: "/linear/gauss_elimination",
+				endpoint: "/linear/gauss_jordan_elimination",
 				data: {
 					size: LinearRequest.size,
 					a: LinearRequest.a,
@@ -104,7 +104,7 @@ export default function GaussPage() {
 			>
 				<Latex>
 					{
-						"$A = \\begin{bmatrix} a_{11} & a_{12} & a_{13} \\\\ a_{21} & a_{22} & a_{23} \\\\ a_{31} & a_{32} & a_{33} \\end{bmatrix} \\xrightarrow{Gaussian\\:elimination} A = \\begin{bmatrix} 1 & b_{12} & b_{13} \\\\ 0 & 1 & b_{23} \\\\ 0 & 0 & 1 \\end{bmatrix} $"
+						"$A = \\begin{bmatrix} a_{11} & a_{12} & a_{13} \\\\ a_{21} & a_{22} & a_{23} \\\\ a_{31} & a_{32} & a_{33} \\end{bmatrix} \\xrightarrow{Gauss-Jordan\\:elimination} A = \\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{bmatrix} $"
 					}
 				</Latex>
 			</div>
@@ -132,7 +132,7 @@ export default function GaussPage() {
 					(!isError ? (
 						<GaussSolution
 							data={data as GaussResult}
-							isJordan={false}
+							isJordan={true}
 						></GaussSolution>
 					) : (
 						error.message

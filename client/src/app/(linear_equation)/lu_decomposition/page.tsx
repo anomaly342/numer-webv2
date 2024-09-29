@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { LinearRequest, GaussResult } from "@/utilities/types";
+import { LinearRequest, LUResult } from "@/utilities/types";
 import { useQuery } from "@tanstack/react-query";
 import { getNestedArray } from "@/utilities/getNestedArray";
 import { cloneDeep } from "lodash";
@@ -10,10 +10,10 @@ import fetch_server from "@/utilities/fetch";
 import TableSkeleton from "@/components/resultTable/TableSkeleton";
 import MatrixInput from "@/components/input/MatrixInput";
 import CalculateButton from "@/components/input/CalculateButton";
-import GaussSolution from "@/components/resultTable/GaussSolution";
+import LUSolution from "@/components/resultTable/LUSolution";
 import "katex/dist/katex.min.css";
 
-export default function GaussPage() {
+export default function LUPage() {
 	const [LinearRequest, setLinearRequest] = useState<LinearRequest>({
 		size: 4,
 		a: [
@@ -25,10 +25,10 @@ export default function GaussPage() {
 		b: [6, 3, 14, 8],
 	});
 	const { error, data, isFetched, isError, isFetching, refetch } = useQuery({
-		queryKey: ["gauss"],
+		queryKey: ["lu"],
 		queryFn: () =>
 			fetch_server({
-				endpoint: "/linear/gauss_elimination",
+				endpoint: "/linear/lu_decomposition",
 				data: {
 					size: LinearRequest.size,
 					a: LinearRequest.a,
@@ -100,11 +100,34 @@ export default function GaussPage() {
 			</h5>
 			<div
 				id="Gaussian"
-				className="flex justify-center overflow-x-auto flex-col max-w-5xl w-full items-center mb-6 rounded-md py-7 px-6 bg-white shadow-md"
+				className="flex justify-center gap-2 overflow-x-auto flex-col max-w-5xl w-full items-center mb-6 rounded-md py-7 px-6 bg-white shadow-md"
 			>
 				<Latex>
+					{`$
+                        
+                        L =
+                            \\begin{bmatrix} 
+                            l_{11} & 0 & 0 \\\\ 
+                            l_{21} & l_{22} & 0 \\\\ 
+                            l_{31} & l_{32} & l_{33} 
+                            \\end{bmatrix}
+                        ,\\:
+                        U =
+                            \\begin{bmatrix} 
+                            u_{11} & u_{12} & u_{13} \\\\ 
+                            0 & u_{22} & u_{23} \\\\ 
+                            0 & 0 & u_{33} 
+                            \\end{bmatrix}
+                            \\\\[5px] 
+                                 $`}
+				</Latex>
+				<Latex>
+					{"$\\text{Solve}\\: LUX = B \\: \\text{for X to solve the system}$"}
+				</Latex>
+				<Latex>{"$\\text{Let}\\: UX = Y$"}</Latex>
+				<Latex>
 					{
-						"$A = \\begin{bmatrix} a_{11} & a_{12} & a_{13} \\\\ a_{21} & a_{22} & a_{23} \\\\ a_{31} & a_{32} & a_{33} \\end{bmatrix} \\xrightarrow{Gaussian\\:elimination} A = \\begin{bmatrix} 1 & b_{12} & b_{13} \\\\ 0 & 1 & b_{23} \\\\ 0 & 0 & 1 \\end{bmatrix} $"
+						"$\\text{First solve}\\: LY = B \\: \\text{for}\\: Y \\: \\text{and then solve} \\: UX = Y\\: \\text{for}\\: X$"
 					}
 				</Latex>
 			</div>
@@ -130,10 +153,7 @@ export default function GaussPage() {
 				{isFetched &&
 					!isFetching &&
 					(!isError ? (
-						<GaussSolution
-							data={data as GaussResult}
-							isJordan={false}
-						></GaussSolution>
+						<LUSolution data={data as LUResult}></LUSolution>
 					) : (
 						error.message
 					))}

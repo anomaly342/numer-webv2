@@ -25,4 +25,19 @@ export class LinearController {
   Gauss_elimination(@Body() linearRequest: LinearRequest) {
     return this.linearService.Gauss(linearRequest);
   }
+
+  @Post('gauss_jordan_elimination')
+  Gauss_jordan_elimination(@Body() linearRequest: LinearRequest) {
+    return this.linearService.Gauss_jordan(linearRequest);
+  }
+
+  @Post('matrix_inversion')
+  Matrix_inversion(@Body() linearRequest: LinearRequest) {
+    return this.linearService.Matrix_inversion(linearRequest);
+  }
+
+  @Post('lu_decomposition')
+  LU_decomposition(@Body() linearRequest: LinearRequest) {
+    return this.linearService.LU_decomposition(linearRequest);
+  }
 }
