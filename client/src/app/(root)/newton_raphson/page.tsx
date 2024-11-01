@@ -1,7 +1,6 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { FixedPointRequest, RootResult } from "@/utilities/types";
 import { useQuery } from "@tanstack/react-query";
 
 import MathField from "@/components/input/EditableMathField";
@@ -12,6 +11,8 @@ import fetch_server from "@/utilities/fetch";
 import TableSkeleton from "@/components/resultTable/TableSkeleton";
 import CalculateButton from "@/components/input/CalculateButton";
 import "katex/dist/katex.min.css";
+import { FixedPointRequest } from "@/types/root/requests";
+import { RootResult } from "@/types/root/results";
 
 export default function FixedPage() {
 	const [latex, setLatex] = useState<string>("x^2 - 17");

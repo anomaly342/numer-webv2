@@ -1,12 +1,13 @@
 import { matrix as toMatrix, det, multiply, inv, transpose } from 'mathjs';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { LinearRequest } from './dto/Request.dto';
+import { LinearRequest, MatrixIterationRequest } from './dto/Request.dto';
 import {
   CholeskyResult,
   CramerResult,
   GaussResult,
   InversionResult,
   LUResult,
+  MatrixIterationResult,
 } from './dto/Result.dto';
 import { cloneDeep } from 'lodash';
 
@@ -418,6 +419,62 @@ export class LinearService {
     result.invertedLower = invertedLower;
     result.invertedLower_t = invertedLower_t;
     result.value = multiply(invertedLower_t, y);
+    return result;
+  }
+
+  Jacobi_iteration(
+    matrixIterationRequest: MatrixIterationRequest,
+  ): MatrixIterationResult {
+    const { size, a, b, initial_xs, error } = matrixIterationRequest;
+    let temp_xs: number[];
+    let temp_error = Array(size);
+    let xs: number[];
+
+    let isLessThanTolerance = false;
+
+    const result = {
+      iterations: [],
+      value: [],
+    } as MatrixIterationResult;
+
+    result.iterations.push({
+      error: Array(size).fill(0),
+      iteration: [...initial_xs],
+    });
+    let ith = 0;
+    xs = [...initial_xs];
+    do {
+      isLessThanTolerance = true;
+      temp_xs = [...xs];
+
+      xs = xs.map((val, index) => {
+        let otherXs = 0;
+
+        for (let i = 0; i < size; i++) {
+          if (i != index) {
+            otherXs += a[index][i] * temp_xs[i];
+          }
+        }
+
+        return (b[index] - otherXs) / a[index][index];
+      });
+
+      for (let i = 0; i < size; i++) {
+        xs.map((val, index) => {
+          const calculatedError = Math.abs((val - temp_xs[index]) / val) * 100;
+          temp_error[index] = calculatedError;
+          if (calculatedError >= error) {
+            isLessThanTolerance = false;
+          }
+        });
+      }
+
+      result.iterations.push({ iteration: [...xs], error: [...temp_error] });
+      console.log(xs);
+      ith++;
+    } while (!isLessThanTolerance && ith < 100);
+
+    result.value = result.iterations[result.iterations.length - 1].iteration;
     return result;
   }
 }

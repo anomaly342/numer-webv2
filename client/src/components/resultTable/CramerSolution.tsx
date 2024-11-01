@@ -1,4 +1,5 @@
-import { CramerResult } from "@/utilities/types";
+import { CramerResult } from "@/types/linear/results";
+import React from "react";
 import Latex from "react-latex-next";
 
 const arrayToLatexMatrix = (arr: number[][], matrixType: string): string => {
@@ -23,7 +24,7 @@ const arrayToLatexMatrix = (arr: number[][], matrixType: string): string => {
 	return str;
 };
 
-export default function CramerSolution({ data }: { data: CramerResult }) {
+function CramerSolution({ data }: { data: CramerResult }) {
 	const detA = data?.detA;
 	return (
 		<div className="bg-white w-full shadow-md rounded-md flex flex-col">
@@ -62,3 +63,5 @@ export default function CramerSolution({ data }: { data: CramerResult }) {
 		</div>
 	);
 }
+
+export default React.memo(CramerSolution);

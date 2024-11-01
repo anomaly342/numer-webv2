@@ -1,7 +1,8 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { LinearRequest, LUResult } from "@/utilities/types";
+import { LinearRequest } from "@/types/linear/requests";
+import { LUResult } from "@/types/linear/results";
 import { useQuery } from "@tanstack/react-query";
 import { getNestedArray } from "@/utilities/getNestedArray";
 import { cloneDeep } from "lodash";
@@ -51,7 +52,7 @@ export default function LUPage() {
 		const size = Number(e.target.value);
 		const nestedArr = getNestedArray(size, "");
 		setLinearRequest((prev) => {
-			return { ...prev, size: size, a: nestedArr };
+			return { ...prev, size: size, a: nestedArr, b: Array(size).fill("") };
 		});
 	};
 

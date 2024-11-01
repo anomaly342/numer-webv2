@@ -1,7 +1,8 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { LinearRequest, InversionResult } from "@/utilities/types";
+import { LinearRequest } from "@/types/linear/requests";
+import { InversionResult } from "@/types/linear/results";
 import { useQuery } from "@tanstack/react-query";
 import { getNestedArray } from "@/utilities/getNestedArray";
 import { cloneDeep } from "lodash";
@@ -51,7 +52,7 @@ export default function GaussJordanPage() {
 		const size = Number(e.target.value);
 		const nestedArr = getNestedArray(size, "");
 		setLinearRequest((prev) => {
-			return { ...prev, size: size, a: nestedArr };
+			return { ...prev, size: size, a: nestedArr, b: Array(size).fill("") };
 		});
 	};
 
@@ -107,6 +108,7 @@ export default function GaussJordanPage() {
 						"$\\begin{aligned}AX &= B\\\\A^{-1}AX &= A^{-1}B\\\\ IX &= A^{-1}B\\\\ X &= A^{-1}B\\end{aligned}$"
 					}
 				</Latex>
+				<Latex>{"$x_n = 4$"}</Latex>
 			</div>
 			<form
 				onSubmit={onSubmit}

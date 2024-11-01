@@ -1,4 +1,4 @@
-import { ErrorObject, RequestData, ResultData } from "./types";
+import { RequestData, ResultData, ErrorObject } from "@/types/types";
 
 const fetch_server = async ({
 	endpoint,

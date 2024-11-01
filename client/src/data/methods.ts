@@ -50,6 +50,11 @@ const methods = [
 				url: "/cholesky_decomposition",
 				api: "/linear/cholesky_decomposition",
 			},
+			{
+				name: "Jacobi Iteration",
+				url: "/jacobi_iteration",
+				api: "/linear/jacobi_iteration",
+			},
 		],
 	},
 ];

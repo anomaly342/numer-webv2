@@ -6,7 +6,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { LinearRequest } from './dto/Request.dto';
+import { LinearRequest, MatrixIterationRequest } from './dto/Request.dto';
 import { CramerResult } from './dto/Result.dto';
 import { LinearService } from './linear.service';
 
@@ -44,5 +44,10 @@ export class LinearController {
   @Post('cholesky_decomposition')
   Cholesky_decomposition(@Body() linearRequest: LinearRequest) {
     return this.linearService.Cholesky_decomposition(linearRequest);
+  }
+
+  @Post('jacobi_iteration')
+  Jacobi_iteration(@Body() matrixIterationRequest: MatrixIterationRequest) {
+    return this.linearService.Jacobi_iteration(matrixIterationRequest);
   }
 }

@@ -1,7 +1,8 @@
 import { getLatexMatrix, toFixedIfNecessary } from "@/utilities/LatexFunctions";
-import { InversionResult } from "@/utilities/types";
 import { spacing } from "@/data/Constants";
 import Latex from "react-latex-next";
+import { InversionResult } from "@/types/linear/results";
+import React from "react";
 
 const generateInversionLatex = (data: InversionResult) => {
 	let latex = "$\\begin{aligned}";
@@ -103,7 +104,7 @@ const generateInversionLatex = (data: InversionResult) => {
 	return latex;
 };
 
-export default function InversionSolution({ data }: { data: InversionResult }) {
+function InversionSolution({ data }: { data: InversionResult }) {
 	const latex_string = generateInversionLatex(data);
 	return (
 		<div className="bg-white w-full shadow-md rounded-md flex flex-col overflow-x-auto">
@@ -133,3 +134,5 @@ export default function InversionSolution({ data }: { data: InversionResult }) {
 		</div>
 	);
 }
+
+export default React.memo(InversionSolution);

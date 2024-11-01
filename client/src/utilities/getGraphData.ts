@@ -1,5 +1,9 @@
+import {
+	RootResult,
+	BisectionIteration,
+	FixedPointIteration,
+} from "@/types/root/results";
 import { ComputeEngine } from "@cortex-js/compute-engine";
-import { BisectionIteration, FixedPointIteration, RootResult } from "./types";
 const range = (start: number, stop: number, step = 1) =>
 	Array(Math.ceil((stop - start) / step))
 		.fill(start)

@@ -26,3 +26,11 @@ export class LinearRequest {
   @IsNumber({}, { each: true })
   readonly b: number[] = [27, 21, 9];
 }
+
+export class MatrixIterationRequest extends LinearRequest {
+  @IsNumber({}, { each: true })
+  readonly initial_xs: number[] = [0, 0, 0];
+
+  @IsNumber()
+  readonly error = 0.05;
+}

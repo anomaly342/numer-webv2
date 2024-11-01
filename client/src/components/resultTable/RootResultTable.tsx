@@ -1,5 +1,5 @@
+import { Iteration, RootResult } from "@/types/root/results";
 import getGraphData from "@/utilities/getGraphData";
-import { Iteration, RootResult } from "@/utilities/types";
 import dynamic from "next/dynamic";
 import Latex from "react-latex-next";
 

@@ -1,16 +1,19 @@
 import { getNestedArray } from "@/utilities/getNestedArray";
+import { MatrixIterationRequest } from "@/types/linear/requests";
 import { ChangeEvent } from "react";
-import { LinearRequest } from "@/types/linear/requests";
 import Latex from "react-latex-next";
+import AnimatedFormInput from "./AnimatedFormInput";
 
-export default function MatrixInput({
-	LinearRequest,
+export default function MatrixInputWithX0({
+	MatrixIterationRequest,
 	onChangeSize,
 	onReset,
 	onChangeMatrixA,
 	onChangeMatrixB,
+	onChangeInitialXS,
+	onChangeError,
 }: {
-	LinearRequest: LinearRequest;
+	MatrixIterationRequest: MatrixIterationRequest;
 	onChangeSize: (e: ChangeEvent<HTMLInputElement>) => void;
 	onReset: (e: React.MouseEvent<HTMLButtonElement>) => void;
 	onChangeMatrixA: (
@@ -19,6 +22,8 @@ export default function MatrixInput({
 		j: number
 	) => void;
 	onChangeMatrixB: (e: ChangeEvent<HTMLInputElement>, i: number) => void;
+	onChangeInitialXS: (e: ChangeEvent<HTMLInputElement>, i: number) => void;
+	onChangeError: (e: ChangeEvent<HTMLInputElement>) => void;
 }) {
 	return (
 		<>
@@ -30,7 +35,7 @@ export default function MatrixInput({
 					<label className="mr-3">{"Matrix size (NxN)"}</label>
 
 					<input
-						value={LinearRequest.size}
+						value={MatrixIterationRequest.size}
 						onChange={onChangeSize}
 						className="p-3 bg-[#E1E1E1] w-20 text-center spin h-10 mr-6"
 						type="number"
@@ -53,18 +58,18 @@ export default function MatrixInput({
 						<div
 							className="grid gap-2 mt-2"
 							style={{
-								gridTemplateRows: `repeat(${LinearRequest.size}, minmax(0, 1fr))`,
-								gridTemplateColumns: `repeat(${LinearRequest.size}, minmax(0, 1fr))`,
+								gridTemplateRows: `repeat(${MatrixIterationRequest.size}, minmax(0, 1fr))`,
+								gridTemplateColumns: `repeat(${MatrixIterationRequest.size}, minmax(0, 1fr))`,
 							}}
 						>
-							{getNestedArray(LinearRequest.size, 0).map((e, i) =>
+							{getNestedArray(MatrixIterationRequest.size, 0).map((e, i) =>
 								e.map((_e, j) => (
-									<div key={`${i}/${j}`} className="relative">
+									<div key={`a${i}/${j}`} className="relative">
 										<input
 											className="size-12 sm:size-16 rounded-sm bg-[#E1E1E1] p-2 text-center focus:outline-[#E67635] peer outline-transparent transition-all duration-300"
 											type="number"
 											name="cell"
-											value={LinearRequest.a[i][j]}
+											value={MatrixIterationRequest.a[i][j]}
 											onChange={(e) => onChangeMatrixA(e, i, j)}
 											placeholder=""
 											id={`${i}/${j}`}
@@ -85,13 +90,13 @@ export default function MatrixInput({
 						<div
 							className="grid grid-cols-1 gap-2 mt-2"
 							style={{
-								gridTemplateRows: `repeat(${LinearRequest.size}, minmax(0, 1fr))`,
+								gridTemplateRows: `repeat(${MatrixIterationRequest.size}, minmax(0, 1fr))`,
 							}}
 						>
-							{Array(LinearRequest.size)
+							{Array(MatrixIterationRequest.size)
 								.fill(0)
 								.map((e, i) => (
-									<div key={i} className="relative">
+									<div key={`x${i}`} className="relative">
 										<input
 											className="size-12 sm:size-16 rounded-sm bg-[#F7F7F7] p-2 text-center focus:outline-[#E67635] peer cursor-not-allowed"
 											type="number"
@@ -122,18 +127,18 @@ export default function MatrixInput({
 						<div
 							className="grid grid-cols-1 gap-2 mt-2"
 							style={{
-								gridTemplateRows: `repeat(${LinearRequest.size}, minmax(0, 1fr))`,
+								gridTemplateRows: `repeat(${MatrixIterationRequest.size}, minmax(0, 1fr))`,
 							}}
 						>
-							{Array(LinearRequest.size)
+							{Array(MatrixIterationRequest.size)
 								.fill(0)
 								.map((e, i) => (
-									<div key={i} className="relative">
+									<div key={`b${i}`} className="relative">
 										<input
 											className="size-12 sm:size-16 rounded-sm bg-[#E1E1E1] p-2 text-center focus:outline-[#E67635] peer outline-transparent transition-all duration-300"
 											type="number"
 											name="varialbe"
-											value={LinearRequest.b[i]}
+											value={MatrixIterationRequest.b[i]}
 											onChange={(e) => onChangeMatrixB(e, i)}
 											placeholder=""
 										/>
@@ -148,6 +153,39 @@ export default function MatrixInput({
 						</div>
 					</div>
 				</div>
+				<div id="symbol" className="flex flex-col items-center mt-6 mb-6">
+					<Latex>{"$\\{x\\}^0$"}</Latex>
+					<div className="flex gap-2 mt-3">
+						{Array(MatrixIterationRequest.size)
+							.fill(0)
+							.map((e, i) => (
+								<div key={`x0_${i}`} className="relative">
+									<input
+										className="size-12 sm:size-16 rounded-sm bg-[#E1E1E1] p-2 text-center focus:outline-[#E67635] peer outline-transparent transition-all duration-300"
+										type="number"
+										name="cell"
+										value={MatrixIterationRequest.initial_xs[i]}
+										onChange={(e) => onChangeInitialXS(e, i)}
+										placeholder=""
+										id={`${0}/${0}`}
+									/>
+									<label
+										id="cell"
+										className="select-none pointer-events-none absolute invisible top-0 left-0 peer-placeholder-shown:left-1/2 peer-placeholder-shown:-translate-x-1/2 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 text-[#9E9E9E] peer-placeholder-shown:visible !text-sm"
+									>
+										<Latex>{`$x_${i + 1}$`}</Latex>
+									</label>
+								</div>
+							))}
+					</div>
+				</div>
+				<AnimatedFormInput
+					value={MatrixIterationRequest.error as number}
+					onChange={onChangeError}
+					name="error"
+				>
+					Error Tolerance
+				</AnimatedFormInput>
 			</div>
 		</>
 	);

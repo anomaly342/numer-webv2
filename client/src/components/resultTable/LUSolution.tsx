@@ -1,7 +1,8 @@
 import { getLatexMatrix, toFixedIfNecessary } from "@/utilities/LatexFunctions";
-import { LUResult } from "@/utilities/types";
 import { spacing } from "@/data/Constants";
 import Latex from "react-latex-next";
+import { LUResult } from "@/types/linear/results";
+import React from "react";
 
 const generateLULatex = (data: LUResult) => {
 	let latex = "$\\begin{aligned}";
@@ -54,7 +55,7 @@ const generateLULatex = (data: LUResult) => {
 	return latex;
 };
 
-export default function LUSolution({ data }: { data: LUResult }) {
+function LUSolution({ data }: { data: LUResult }) {
 	const latex_string = generateLULatex(data);
 	return (
 		<div className="bg-white w-full shadow-md rounded-md flex flex-col overflow-x-auto">
@@ -84,3 +85,5 @@ export default function LUSolution({ data }: { data: LUResult }) {
 		</div>
 	);
 }
+
+export default React.memo(LUSolution);

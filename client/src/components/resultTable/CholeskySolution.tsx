@@ -1,7 +1,8 @@
 import { getLatexMatrix, toFixedIfNecessary } from "@/utilities/LatexFunctions";
-import { CholeskyResult } from "@/utilities/types";
 import { spacing } from "@/data/Constants";
 import Latex from "react-latex-next";
+import { CholeskyResult } from "@/types/linear/results";
+import React from "react";
 
 const generateCholeskyLatex = (data: CholeskyResult) => {
 	let latex = "$\\begin{aligned}";
@@ -54,7 +55,7 @@ const generateCholeskyLatex = (data: CholeskyResult) => {
 	return latex;
 };
 
-export default function CholeskySolution({ data }: { data: CholeskyResult }) {
+function CholeskySolution({ data }: { data: CholeskyResult }) {
 	const latex_string = generateCholeskyLatex(data);
 	return (
 		<div className="bg-white w-full shadow-md rounded-md flex flex-col overflow-x-auto">
@@ -84,3 +85,5 @@ export default function CholeskySolution({ data }: { data: CholeskyResult }) {
 		</div>
 	);
 }
+
+export default React.memo(CholeskySolution);

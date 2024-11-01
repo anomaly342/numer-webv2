@@ -35,6 +35,10 @@ export class CholeskyResult extends LinearResult {
   y: number[];
 }
 
+export class MatrixIterationResult extends LinearResult {
+  iterations: MatrixIteration[];
+}
+
 export type Operation = 'divide' | 'multiple';
 
 export class Change {
@@ -56,4 +60,9 @@ export class GaussIteration extends LinearIteration {
 export class InversionIteration extends LinearIteration {
   a: number[][];
   invertedMatrix: number[][];
+}
+
+export class MatrixIteration {
+  iteration: number[];
+  error: number[];
 }

@@ -1,7 +1,8 @@
-import { GaussResult } from "@/utilities/types";
 import { toFixedIfNecessary } from "@/utilities/LatexFunctions";
 import { spacing } from "@/data/Constants";
 import Latex from "react-latex-next";
+import { GaussResult } from "@/types/linear/results";
+import React from "react";
 
 const generateGaussLatex = (data: GaussResult, isJordan: boolean) => {
 	let latex = "$\\begin{aligned}";
@@ -79,7 +80,7 @@ const generateGaussLatex = (data: GaussResult, isJordan: boolean) => {
 	return latex;
 };
 
-export default function GaussSolution({
+function GaussSolution({
 	data,
 	isJordan,
 }: {
@@ -115,3 +116,5 @@ export default function GaussSolution({
 		</div>
 	);
 }
+
+export default React.memo(GaussSolution);
