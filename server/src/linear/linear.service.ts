@@ -477,4 +477,63 @@ export class LinearService {
     result.value = result.iterations[result.iterations.length - 1].iteration;
     return result;
   }
+
+  Gauss_seldel_iteration(
+    matrixIterationRequest: MatrixIterationRequest,
+  ): MatrixIterationResult {
+    const { size, a, b, initial_xs, error } = matrixIterationRequest;
+    let temp_xs: number[];
+    let temp_error = Array(size);
+    let xs: number[];
+
+    let isLessThanTolerance = false;
+
+    const result = {
+      iterations: [],
+      value: [],
+    } as MatrixIterationResult;
+
+    result.iterations.push({
+      error: Array(size).fill(0),
+      iteration: [...initial_xs],
+    });
+    let ith = 0;
+    xs = [...initial_xs];
+    do {
+      isLessThanTolerance = true;
+      temp_xs = [...xs];
+
+      xs = xs.map((val, index) => {
+        let otherXs = 0,
+          total: number;
+
+        for (let i = 0; i < size; i++) {
+          if (i != index) {
+            otherXs += a[index][i] * xs[i];
+          }
+        }
+
+        total = (b[index] - otherXs) / a[index][index];
+        xs[index] = total;
+        return total;
+      });
+
+      for (let i = 0; i < size; i++) {
+        xs.map((val, index) => {
+          const calculatedError = Math.abs((val - temp_xs[index]) / val) * 100;
+          temp_error[index] = calculatedError;
+          if (calculatedError >= error) {
+            isLessThanTolerance = false;
+          }
+        });
+      }
+
+      result.iterations.push({ iteration: [...xs], error: [...temp_error] });
+      console.log(xs);
+      ith++;
+    } while (!isLessThanTolerance && ith < 100);
+
+    result.value = result.iterations[result.iterations.length - 1].iteration;
+    return result;
+  }
 }

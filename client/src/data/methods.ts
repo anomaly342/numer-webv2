@@ -55,6 +55,46 @@ const methods = [
 				url: "/jacobi_iteration",
 				api: "/linear/jacobi_iteration",
 			},
+			{
+				name: "Gauss-Seidel Iteration",
+				url: "/gauss-seidel_iteration",
+				api: "/linear/gauss-seidel_iteration",
+			},
+		],
+	},
+	{
+		title: "Interpolation",
+		sublinks: [
+			{
+				name: "Newton Divided-differences",
+				url: "/newton_divided",
+				api: "/interpolation/newton_divided",
+			},
+			{
+				name: "Lagrange Interpolation",
+				url: "/lagrange",
+				api: "/interpolation/lagrange",
+			},
+			{
+				name: "Spline Interpolation",
+				url: "/spline",
+				api: "/interpolation/spline",
+			},
+		],
+	},
+	{
+		title: "Extrapolation",
+		sublinks: [
+			{
+				name: "Simple Regression",
+				url: "/simple_regression",
+				api: "/extrapolation/simple_regression",
+			},
+			{
+				name: "Multiple Regression",
+				url: "/multiple_regression",
+				api: "/extrapolation/multiple_regression",
+			},
 		],
 	},
 ];

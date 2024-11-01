@@ -50,4 +50,11 @@ export class LinearController {
   Jacobi_iteration(@Body() matrixIterationRequest: MatrixIterationRequest) {
     return this.linearService.Jacobi_iteration(matrixIterationRequest);
   }
+
+  @Post('gauss-seidel_iteration')
+  Gauss_seldel_iteration(
+    @Body() matrixIterationRequest: MatrixIterationRequest,
+  ) {
+    return this.linearService.Gauss_seldel_iteration(matrixIterationRequest);
+  }
 }

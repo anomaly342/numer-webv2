@@ -37,7 +37,8 @@ export default function Header() {
 				<GiHamburgerMenu onClick={toggleNav} color="#C65D21" size="32px" />
 
 				<nav
-					className={`fixed z-50 top-0 left-0 h-full bg-white pt-5 w-full lg:w-4/12 2xl:w-2/12 ${
+					id="nav"
+					className={`fixed z-50 top-0 left-0 h-full bg-white pt-5 w-full overflow-y-scroll  lg:w-4/12 2xl:w-2/12 ${
 						showNav ? "" : "hidden"
 					}`}
 				>

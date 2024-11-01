@@ -53,6 +53,15 @@ input[type="number"] {
 	margin: 0;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#nav::-webkit-scrollbar {
+	display: none;
+}
+
 /* :root {
 	--background: #ffffff;
 	--foreground: #171717;
