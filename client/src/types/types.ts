@@ -1,3 +1,5 @@
+import { InterpolationRequest } from "./interpolation/requests";
+import { LagrangeResult, SplineResult } from "./interpolation/results";
 import { LinearRequest, MatrixIterationRequest } from "./linear/requests";
 import {
 	CholeskyResult,
@@ -21,7 +23,8 @@ export type RequestData =
 	| FixedPointRequest
 	| SecantRequest
 	| LinearRequest
-	| MatrixIterationRequest;
+	| MatrixIterationRequest
+	| InterpolationRequest;
 
 export type ErrorObject = {
 	statusCode: string;
@@ -36,4 +39,6 @@ export type ResultData =
 	| LUResult
 	| CholeskyResult
 	| MatrixIterationResult
+	| LagrangeResult
+	| SplineResult
 	| Error;
