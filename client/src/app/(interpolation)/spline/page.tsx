@@ -13,7 +13,7 @@ import { SplineResult } from "@/types/interpolation/results";
 import SplineSolution from "@/components/resultTable/SplineSolution";
 
 export default function SplinePage() {
-	const [NewtonDividedRequest, setNewtonDividedRequest] =
+	const [InterpolationRequest, setInterpolationRequest] =
 		useState<InterpolationRequest>({
 			n_point: 5,
 			x: [0, 20000, 40000, 60000, 80000],
@@ -26,10 +26,10 @@ export default function SplinePage() {
 			fetch_server({
 				endpoint: "/interpolation/spline",
 				data: {
-					n_point: NewtonDividedRequest.n_point,
-					x: NewtonDividedRequest.x,
-					y: NewtonDividedRequest.y,
-					requestX: NewtonDividedRequest.requestX,
+					n_point: InterpolationRequest.n_point,
+					x: InterpolationRequest.x,
+					y: InterpolationRequest.y,
+					requestX: InterpolationRequest.requestX,
 				},
 			}),
 		enabled: false,
@@ -46,7 +46,7 @@ export default function SplinePage() {
 		e.preventDefault();
 
 		const n = Number(e.target.value);
-		setNewtonDividedRequest((prev) => {
+		setInterpolationRequest((prev) => {
 			return {
 				...prev,
 				n_point: n,
@@ -60,7 +60,7 @@ export default function SplinePage() {
 		e.preventDefault();
 
 		const n = e.target.value === "" ? "" : Number(e.target.value);
-		setNewtonDividedRequest((prev) => {
+		setInterpolationRequest((prev) => {
 			return {
 				...prev,
 				requestX: n,
@@ -71,10 +71,10 @@ export default function SplinePage() {
 	const onChangeX = (e: ChangeEvent<HTMLInputElement>, index: number) => {
 		e.preventDefault();
 
-		const temp = cloneDeep(NewtonDividedRequest.x);
+		const temp = cloneDeep(InterpolationRequest.x);
 		temp[index] = e.target.value === "" ? "" : Number(e.target.value);
 
-		setNewtonDividedRequest((prev) => {
+		setInterpolationRequest((prev) => {
 			return { ...prev, x: temp };
 		});
 	};
@@ -82,10 +82,10 @@ export default function SplinePage() {
 	const onChangeY = (e: ChangeEvent<HTMLInputElement>, index: number) => {
 		e.preventDefault();
 
-		const temp = cloneDeep(NewtonDividedRequest.y);
+		const temp = cloneDeep(InterpolationRequest.y);
 		temp[index] = e.target.value === "" ? "" : Number(e.target.value);
 
-		setNewtonDividedRequest((prev) => {
+		setInterpolationRequest((prev) => {
 			return { ...prev, y: temp };
 		});
 	};
@@ -102,7 +102,7 @@ export default function SplinePage() {
 					<div>
 						<label>Number of points</label>
 						<input
-							value={NewtonDividedRequest.n_point}
+							value={InterpolationRequest.n_point}
 							onChange={onChangeSize}
 							className="p-3 mb-2 mt-4  w-20 text-center spin h-10 rounded-md border-[1px] ml-3 border-gray-300"
 							type="number"
@@ -113,7 +113,7 @@ export default function SplinePage() {
 					</div>
 					<div>
 						<input
-							value={NewtonDividedRequest.requestX}
+							value={InterpolationRequest.requestX}
 							onChange={onChangeReqX}
 							className="p-3 mb-4 w-32 text-center spin h-10 rounded-md border-[1px] ml-3 border-gray-300"
 							type="number"
@@ -123,7 +123,7 @@ export default function SplinePage() {
 						/>
 					</div>
 
-					{Array(NewtonDividedRequest.n_point)
+					{Array(InterpolationRequest.n_point)
 						.fill(0)
 						.map((e, i) => (
 							<div key={`form${i}`} className="flex items-center mb-2 gap-2">
@@ -135,7 +135,7 @@ export default function SplinePage() {
 										name="cell"
 										placeholder=""
 										onChange={(e) => onChangeX(e, i)}
-										value={NewtonDividedRequest.x[i]}
+										value={InterpolationRequest.x[i]}
 										id={`4`}
 									/>
 									<label
@@ -153,7 +153,7 @@ export default function SplinePage() {
 										name="cell"
 										placeholder=""
 										onChange={(e) => onChangeY(e, i)}
-										value={NewtonDividedRequest.y[i]}
+										value={InterpolationRequest.y[i]}
 										id={`4`}
 									/>
 									<label
