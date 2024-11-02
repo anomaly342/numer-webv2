@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ExtrapolationRequest } from './dto/request.dto';
-import { ExtrapolationResult } from './dto/result.dto';
+import { ExtrapolationRequest } from './dto/Request.dto';
+import { ExtrapolationResult } from './dto/Result.dto';
 import { inv, multiply } from 'mathjs';
 import { cloneDeep } from 'lodash';
 
@@ -12,8 +12,10 @@ export class ExtrapolationService {
     const { m, n_point, requestX, x, y } = extrapolationRequest;
     let order = m;
     order++;
-    const a = Array.from({ length: order }, () => Array(order).fill(0));
-    const b = Array(order);
+    const a: number[][] = Array.from({ length: order }, () =>
+      Array(order).fill(0),
+    );
+    const b: number[] = Array(order);
     const initialValue = 0;
 
     const result: ExtrapolationResult = {

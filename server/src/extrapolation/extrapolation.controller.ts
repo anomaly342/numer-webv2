@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ExtrapolationService } from './extrapolation.service';
 import { ApiTags } from '@nestjs/swagger';
-import { ExtrapolationRequest } from './dto/request.dto';
-import { ExtrapolationResult } from './dto/result.dto';
+import { ExtrapolationRequest } from './dto/Request.dto';
+import { ExtrapolationResult } from './dto/Result.dto';
 
 @ApiTags('extrapolation')
 @Controller('extrapolation')
