@@ -10,7 +10,7 @@ COPY package*.json ./
 # Install app dependencies
 RUN npm ci
 
-COPY patches ./patches
+COPY ./patches ./patches
 
 
 RUN npx patch-package
