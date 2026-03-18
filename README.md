@@ -1,3 +1,3 @@
 # Numer
 
-Live at https://numerv2.cloudvista.dev/
+Live at https://numerv.cloudvista.dev/
